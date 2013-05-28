@@ -1,0 +1,60 @@
+﻿@using MyNamespace
+@model IList<MyModel>
+
+@using (Html.BeginForm("MyAction", "Home")) {
+  <table><tr><th>Use?</th><th>Name</th><th>List A</th><th>List B</th><th>List C</th></tr>
+@*@foreach (var item in Model)
+{
+  @Html.EditorForModel()
+}*@
+@Html.EditorForModel()
+</table>
+}
+
+<script src="@Url.Content("~/Scripts/jquery-1.7.1.js")" type="text/javascript"></script>
+
+
+<script>
+    $(document).ready( $(function () {
+        $('.ajaxlistA').change(function () {
+            // when the value of the first select changes trigger an ajax request
+            list = $(this);
+            var listvalue = list.val();
+            var listname = list.attr('id');
+            $.getJSON('@Url.Action("PopulateOption", "Home")', { listid: listvalue, name: listname }, function (result) {
+                // assuming the server returned json update the contents of the 
+                // second selectbox
+                var listB = $('#' + listname).parent().parent().find('.ajaxlistB');
+                listB.empty();
+                $.each(result, function (index, item) {
+                    listB.append(
+                        $('<option/>', {
+                            value: item.id,
+                            text: item.name
+                        })
+                    );
+                });
+            });
+        });
+        $('.ajaxlistB').change(function () {
+            // when the value of the first select changes trigger an ajax request
+            list = $(this);
+            var listvalue = list.val();
+            var listname = list.attr('id');
+            $.getJSON('@Url.Action("PopulateOption", "Home")', { listid: listvalue, name: listname }, function (result) {
+                // assuming the server returned json update the contents of the 
+                // second selectbox
+                var listB = $('#' + listname).parent().parent().find('.ajaxlistC');
+                listB.empty();
+                $.each(result, function (index, item) {
+                    listB.append(
+                        $('<option/>', {
+                            value: item.id,
+                            text: item.name
+                        })
+                    );
+                });
+            });
+        });
+    }));
+</script>

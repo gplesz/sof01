@@ -1,0 +1,8 @@
+﻿@model MyNamespace.MyModel
+<tr>
+    <td>@Html.CheckBoxFor(model => model.Use)</td>
+    <td>@Html.DisplayFor(model => model.Name)</td>
+    <td>@Html.DropDownListFor(model => model.ListAId, new SelectList(Model.ListA, "Id", "Name", Model.ListAId), "", new { @id = string.Format("ListA{0}", Model.Name), @class="ajaxlistA" })</td>
+    <td><select class="ajaxlistB" id="ListB@(Model.Name)"></select></td>
+    <td><select class="ajaxlistC" id="ListC@(Model.Name)"></select></td>
+</tr>
